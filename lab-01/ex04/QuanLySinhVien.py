@@ -28,7 +28,7 @@ class QuanLySinhVien:
 
     def updateSinhVien(self, ID):
         sv = self.findByID(ID)
-        if sv is not None:
+        if (sv != None):
             name = input("Nhập tên sinh viên: ")
             sex = input("Nhập giới tính sinh viên: ")
             major = input("Nhập chuyên ngành của sinh viên: ")
@@ -42,33 +42,35 @@ class QuanLySinhVien:
             print(f"Sinh viên có ID {ID} không tồn tại.")
 
     def sortByID(self):
-        self.listSinhVien.sort(key=lambda x: x._id)
+        self.listSinhVien.sort(key=lambda x: x._id, reverse=False)
 
     def sortByName(self):
-        self.listSinhVien.sort(key=lambda x: x._name)
+        self.listSinhVien.sort(key=lambda x: x._name, reverse=False)
 
     def sortByDiemTB(self):
-        self.listSinhVien.sort(key=lambda x: x._diemTB, reverse=True)
+        self.listSinhVien.sort(key=lambda x: x._diemTB, reverse=False)
 
     def findByID(self, ID):
+        search = None
         for sv in self.listSinhVien:
             if sv._id == ID:
-                return sv
-        return None
+                search = sv
+        return search
 
     def findByName(self, keyword):
         listSV = []
         for sv in self.listSinhVien:
-            if keyword.lower() in sv._name.lower():
+            if keyword.upper() in sv._name.upper():
                 listSV.append(sv)
         return listSV
 
     def deleteById(self, ID):
+        isDeleted = False
         sv = self.findByID(ID)
         if sv is not None:
             self.listSinhVien.remove(sv)
-            return True
-        return False
+            isDeleted = True
+        return isDeleted
 
     def xepLoaiHocLuc(self, sv: SinhVien):
         if sv._diemTB >= 8:
@@ -81,9 +83,9 @@ class QuanLySinhVien:
             sv._hocLuc = "Yếu"
 
     def showSinhVien(self, listSV):
-        print("{:<8} {:<20} {:<8} {:<15} {:<8} {:<10}".format("ID", "Name", "Sex", "Major", "Điểm", "Học lực"))
+        print("{:<8} {:<18} {:<8} {:<20} {:<8} {:<8}".format("ID", "Name", "Sex", "Major", "Điểm", "Học lực"))
         for sv in listSV:
-            print("{:<8} {:<20} {:<8} {:<15} {:<8} {:<10}".format(
+            print("{:<8} {:<18} {:<8} {:<20} {:<8} {:<8}".format(
                 sv._id, sv._name, sv._sex, sv._major, sv._diemTB, sv._hocLuc
             ))
 
